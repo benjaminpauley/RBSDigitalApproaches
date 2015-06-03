@@ -1,5 +1,7 @@
 #parse-pag-statements.py
 
+# Code to be used in transforming ESTC pagination statements in Open Refine. (Use Jython.)
+
 import re
 roman = re.compile('[xvi]')
 plates = re.compile('\d+\splates')
