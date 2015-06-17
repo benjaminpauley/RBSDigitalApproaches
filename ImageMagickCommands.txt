@@ -1,0 +1,14 @@
+#ImageMagick commands
+
+#convert multi-page PDF to individual black and white TIFFs at 600 DPI, with sequential file names 
+# experiment with -threshold value to find best results
+
+convert -density 600 -threshold 50% -monochrome -depth 1 multipage.pdf /path/to/folder/multipage-%03d.tif
+
+#to convert only selected pages of the multipage PDF:
+
+convert -density 600 -threshold 50% -monochrome -depth 1 multipage.pdf[8-240] /path/to/folder/multipage-%03d.tif
+
+#Bash script to run ImageMagick conversion on all files in a folder:
+cd folder # <-- your folder full of, say, color TIFF files already at 600 DPI
+for file in *.tif; do convert -threshold 50% -monochrome -depth 1 $file path/to/folder/${file%%.*}.tif; done
