@@ -12,3 +12,6 @@ convert -density 600 -threshold 50% -monochrome -depth 1 multipage.pdf[8-240] /p
 #Bash script to run ImageMagick conversion on all files in a folder:
 cd folder # <-- your folder full of, say, color TIFF files already at 600 DPI
 for file in *.tif; do convert -threshold 50% -monochrome -depth 1 $file path/to/folder/${file%%.*}.tif; done
+
+# Let's say your .TIFF files were only 300 dpi:
+for file in *.tif; do convert -density 600 -threshold 50% -monochrome -depth 1 $file /path/to/folder/${file%%.*}.tif; done
