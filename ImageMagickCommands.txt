@@ -1,21 +1,224 @@
 #ImageMagick commands
 
-#convert multi-page PDF to individual black and white TIFFs at 600 DPI, with sequential file names 
-# experiment with -threshold value to find best results
+#########################################################################################
+#       																				#
+# "convert" is an ImageMagick command for operating on files.							#
+#       																				#
+# Each entry starts with a generic version of the command with placeholder text in 		#
+# angle brackets. It then provides a sample task and the command to accomplish it as	#
+# you would actually type it in your terminal. (Note that, while the length of the 		#
+# commands means that the practical examples can wrap on to multiple lines, you should	#
+# type everything as a single line, pressing "Return" only at the end of the command.	#
+#																						#
+# The examples given are for using ImageMagick in a "bash" terminal in a Unix-like 		#
+# system (e.g., Linux or Mac OS X). If you are using ImageMagick in Windows, I'm afraid #
+# you'll need to look for instructions somewhere else--I just don't know anything at	#
+# all about running ImageMagick under Windows.											# 
+#																						#
+# I've only used a very small number of parameters in these examples, to wit:			#
+#			-density : 	dots-per-inch (more or less)									#
+#			-threshold: Pixels whose value is above the supplied threshold get pushed	# 	#	 						to the maximum value, while any pixels falling below that	#
+#							threshold are set to the minimum value. For our uses, this	#
+#							is about black vs. white. You will need to experiment with 	#
+#							this value to find the best result for your images.			#									#       																				#
+#			-type:		e.g. Grayscale vs. Bilevel (black and white), or various kinds	#
+#							of color.													#
+#			-depth:		How many bits per pixel.										#
+#       																				#
+# In these simple examples, the input file(s) (that is, the file or files you want to	#
+# perform operations on) is given *after* all the parameters. The input file(s) are		#
+# then followed by the output file(s) (i.e., the files that will result from the 		#
+# operatins you're performing.															#
+#																						#
+# All names and paths for input and output files are purely boilerplate: you will need	#
+# to replace things like "multipage.pdf" and "/path/to/folder/" with, for example, the	# # filename of the multi-page PDF you're converting and the path to the folder where the	#       																				# script will find a file to convert, or where it will place the results of its 		#
+# operations. 																			#
+#       																				#
+# These commands are written in a way that assumes you have already navigated to the 	#
+# folder where your PDF (or images) are located by using the cd command. You can run	#
+# ImageMagick's convert command from wherever you happen to be in your directory 		#
+# structure, but if you want to operate on files that are located somewhere other	 	#
+# than your present location, or if you want the output files to end up somewhere		#
+# besides your present working directory, you'll need to supply the path. 				#
+#       																				#
+#########################################################################################
+#       																				#
+# These are *very* simple ImageMagick commands meant to get you started. You can find 	#       																			
+# full documentation for ImageMagick's *many* features at:								#
+#       																				#
+#		http://www.imagemagick.org/script/command-line-processing.php					#
+#       																				#
+# You can find a large collection of ImageMagick scripts for many different purposes	#
+# (including several appropriate for pre-processing page images) at:					#
+#       																				#
+#		http://www.fmwconcepts.com/imagemagick/											#
+#       																				#
+# (You'll need to read up on how to execute these scripts on your system, but 			#
+#  instructions are available.)															#	     																				#																						#
+#########################################################################################
 
-convert -density 600 -threshold 50% -type Bilevel -depth 1 multipage.pdf /path/to/folder/multipage-%03\d.tif
+#########################################################################################
+# Scenario 1: Convert a an individual image to another format. (E.g., PDF to TIFF, TIFF	#								 	
+# to JPEG, etc.)
+#																						#
+#	convert <parameters> <infile> <outfile>												#
+# 																						#
+#	Example: In a folder of PDFs of broadside ballads, convert a single ballad from PDF	#
+#			 to TIFF, placing the resulting TIFF file in the same folder as the 		#
+#			 original PDF.
+#																						#		
+#			cd Ballads																	#
+#			convert -density 600 -threshold 50% -type Bilevel -depth 1 					#
+#					Ye-Olde-Hey-Nonny.pdf Ye-Olde-Hey-Nonny.tif							#
+#																						#
+#########################################################################################
 
-#to convert only selected pages of the multipage PDF:
+#########################################################################################
+# Scenario 2: Split a multi-page PDF into multiple files (one page per file), 			#
+# with sequential file names ending in three-digit numbers. (N.b.: Example shows 		#
+# conversion to TIFF, but you could convert to JPEG, PNG, etc.							#								
+#																						#
+#	convert <parameters> <infile> <outfiles>											#
+# 																						#
+#	Example: In a folder of PDFs of works by Henry Fielding, create a subfolder to hold #
+#			 the pages of the novel Tom Jones, then convert a several-hundred-page		# 
+#			 PDF of that novel into a collection of 600-dpi black and white TIFF files,	#
+#			 placing the resulting files into the newly-created subfolder.				#
+#																						#		
+#			cd Fielding-Works															#
+#			mkdir Tom-Jones-pages														#
+#			convert -density 600 -threshold 50% -type Bilevel -depth 1 Tom_Jones.pdf	#
+#				Tom-Jones-pages/Tom-Jones-%03\d.tif										#
+#																						#
+#########################################################################################
 
-convert -density 600 -threshold 50% -type Bilevel -depth 1 multipage.pdf[8-240] /path/to/folder/multipage-%03\d.tif
+#########################################################################################
+# Scenario 2.5: Convert only selected pages of a multi-page PDF by adding the range of 	#
+# pages you want to convert in square brackets at the end of the input file name:		#				#																						#
+#	convert <parameters> <infile>[startingPageNumber-endingPageNumber] <outfiles>		#
+# 																						#
+#	Example: In a folder of PDFs of works by Henry Fielding, create a subfolder to hold	#
+#			the pages of the novel Tom Jones, then convert a several-hundred-page		#
+#			PDF of that novel into a collection of 600-dpi black and white TIFF files,	#
+#			but including only those pages that aren't blank, then placing the 			#
+#			resulting files into the newly-created subfolder.							#
+#																						#
+#			cd Fielding-Works															#
+#			mkdir Tom-Jones-pages														#
+#			convert -density 600 -threshold 50% -type Bilevel -depth 1 					#
+#				Tom_Jones.pdf[8-760] Tom-Jones-pages/Tom-Jones-%03\d.tif				#					
+#																						#
+#########################################################################################
 
-#Bash script to run ImageMagick conversion on all files in a folder:
-cd folder # <-- your folder full of, say, color TIFF files already at 600 DPI
-for file in *.tif; do convert -threshold 50% -type Bilevel -depth 1 $file path/to/folder/${file%%.*}.tif; done
+#########################################################################################
+# Scenario 3: Perform the same operation on all the files of a given type in a folder.	#					
+#																						#
+#	N.b.: In these examples, we'll be using a variable, "file." The variable gets 		#
+#	in the course of constructing a for loop. Subsequent references to the variable 	#
+#	start with a dollar sign. (The way we process the input file names to create the	#
+#	output file names will be explained in a bit.) Note the semicolons between portions	#
+#	of the command.																		#																					
+#																						#
+#	for file in *.<file-extension>; do convert <parameters> $file <outfiles>; done		#
+#																						#
+#	Example: In a folder full of color TIFF files of printer's ornaments, create a		# 
+#			 subfolder to hold black	and white copies of the images. Convert the 	#
+#			 images to black and white (we will assume we don't need to change them 	#
+#			 in any other way) and place the resulting files in the newly-created 		#
+#			 subfolder.														 			#
+#																						#
+#			cd Printers-Ornaments														#
+#			mkdir Printers-Ornaments-Black-and-White									#
+#			for file in *.tif; do convert -threshold 50% -type Bilevel -depth 1 		#
+#				$file Printers-Ornaments-Black-and-White/${file%%.*}-bw.tif; done		#										
+#																						#
+#		About that filename mangling: This script uses a "for" loop to work through 	#
+#		every file in the folder that meets a certain condition: in this case, we are 	#
+#		looking	for all files with a file extension of .tif. (The asterisk is a 		#
+#		wildcard character: we're saying, in effect, "For every file that has a name 	#
+#		consisting of any combination of characters--so long as it ends in ".tif", do 	#
+#		what I'm about to tell you..."). 
+#		
+#		If our folder had three files in it--named Aldus.tif, Caxton.tif, and 			#
+#		Notes.docx--our for loop would act on the two .tif files, but ignore our		#
+#		Microsoft Word document of notes with the suffix .docx. Because this is a loop,	#
+#		the script will be repeated as many times as there are files that meet our		#
+#		condition (in this case, twice). 												#
+#																						#
+#		Each time through the loop, the variable that we've named "file" will stand		#
+#		for a different .tif file. The first time through, $file stands for "Aldus.tif" # 
+#		and the second time through, $file stands for "Caxton.tif". If we were to name 	#
+#		our output files simply using a pattern like $file-bw.tif, the result the first #
+#		time through the loop would actually end up being "Aldus.tif-bw.tif" and the 	#
+#		second time we'd get "Caxton.tif-bw.tif". And we don't want that.				#
+#																						#
+#		The way we're generating the names for the output file uses something called	#
+#		"parameter expansion" to remove the longest possible pattern *following* the 	#
+#		two percent signs (i.e., from the first occurrence of a period and taking in  	#
+#		any characters that follow--remember that the asterisk is a wildcard for any 	#
+#		number of characters of any kind.) This way, we're saying "Give me the portion  #
+#		of the filename for $file before the period, then add '-bw.tif' to it." So		#
+#		now instead of "Aldus.tif-bw.tif", we'll get "Aldus-bw.tif".					#								
+#																						#
+#########################################################################################
 
-# Let's say your .TIFF files were only 300 dpi:
-for file in *.tif; do convert -density 600 -threshold 50% -type Bilevel -depth 1 $file /path/to/folder/${file%%.*}.tif; done
-
-# for a folder full of single-page .pdfs: Navigate to the folder in your terminal and execute this command:
-cd /path/to/folder-full-of-pdfs
-[Prompt:] for file in *.pdf; do convert -density 600 -threshold 50% -type Bilevel -depth 1 $file ${file%%.*}.tif; done
+#########################################################################################
+# Bonus Scenario 4: Perform the same action on a folder full of multi-page PDFs while 	#
+# keeping our folders tidy.																#
+#																						#
+#	Example: We have a whole folder full of multi-page PDFs of novels by Eliza Haywood, #
+#			and we want to prepare them all for OCRing. We need to convert all of the 	#
+#			pages of all of the PDFs to black and white TIFF files at 600dpi, but we	#
+#			want the TIFF files	resulting from each PDF to be placed into separate 		#
+#			named after the original PDF files.											#
+#																						#
+#			cd Haywood-Novels															#
+#			for file in *.pdf; do mkdir ${file%%.*}; convert -density 600 				#
+#				-threshold 50% -type Bilevel -depth 1 $file								# 
+#				${file%%.*}/${file%%.*}-%03\d.tif; done									#
+#																						#
+#		Okay, what just happened: This one looks kind of crazy, but we're really just  	#
+#		using the same kind of for loop as in the last example to act on all the PDFs	#
+#		in the folder. We're also using the same kind of parameter expansion we saw		#
+#		in the previous example, only now we're using that parameter expansion not only	# 
+#		for the filenames of the output files, but also for the name of the subfolders	#
+#		we're creating to hold all those output files.									#
+#																						#
+#		If our folder Haywood-Novels had three files in it, named Fantomina.pdf,		#
+#		Fair-Jilt.pdf, and Love-in-Excess.pdf, our for loop will execute three times.	#
+#		The first time, $file will equal "Fantomina.pdf", so the parameter expansion	#
+#		${file%%.*} will match the portion of the filename before the period--			#
+#		"Fantomina". 																	#
+#																						#
+#		First we'll use mkdir to create a subfolder called Fantomina. (Note the			#
+#		semicolon after that step and before the convert command--we've added a new		#
+#		step in our command.)															#
+#																						#
+#		Once we've created the folder Fantomina, we move on the convert command, and	#
+#		this is pretty much just like what we did in the last example, *except*	that,	#
+#		instead of just using "Fantomina" as the base filename for our output files,	#
+#		we're first using "Fantomina" in the path to those output files. 				#
+#																						#
+#		If we think about the text that the parameter expansion is generating each 		#
+#		time, what we're really saying ends up being:									#
+#																						#
+#				mkdir Fantomina															#
+#				convert <parameters> Fantomina.pdf Fantomina/Fantomina-001.tif			#
+#				convert <parameters> Fantomina.pdf Fantomina/Fantomina-002.tif			#
+#				...																		#
+#				convert <parameters> Fantomina.pdf Fantomina/Fantomina-075.tif			#
+#																						#
+#				mkdir Fair-Jilt															#
+#				convert <parameters> Fair-Jilt.pdf Fair-Jilt/Fair-Jilt-001.tif			#
+#				...																		#																						#				convert <parameters> Fair-Jilt.pdf Fair-Jilt/Fair-Jilt-060.tif			#
+#																						#
+#				mkdir Love-in-Excess													#
+#				convert <parameters> Love-in-Excess.pdf 								#
+#						Love-in-Excess/Love-in-Excess-001.tif							#
+#				...																		#													#				convert <parameters> Love-in-Excess.pdf 								#
+#						Love-in-Excess/Love-in-Excess-220.tif							#
+#																						#
+#		So, in the end, we get a new subfolder for each PDF file, and in each subfolder	#
+#		are all the TIFFs that we produced from the corresponding PDF file. 			#
+#																						#
+######################################################################################### 	
