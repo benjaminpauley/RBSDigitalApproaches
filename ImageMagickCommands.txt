@@ -114,15 +114,15 @@
 # Scenario 3: Perform the same operation on all the files of a given type in a folder.	#					
 #																						#
 #	N.b.: In these examples, we'll be using a variable, "file." The variable gets 		#
-#	in the course of constructing a for loop. Subsequent references to the variable 	#
-#	start with a dollar sign. (The way we process the input file names to create the	#
-#	output file names will be explained in a bit.) Note the semicolons between portions	#
-#	of the command.																		#																					
+#	created in the course of constructing a for loop. Subsequent references to the 		#
+#	variable start with a dollar sign. (The way we process the input file names to 		#
+#	create the output file names will be explained in a bit.) Note the semicolons		#
+#	 between portions of the command.													#																					
 #																						#
 #	for file in *.<file-extension>; do convert <parameters> $file <outfiles>; done		#
 #																						#
 #	Example: In a folder full of color TIFF files of printer's ornaments, create a		# 
-#			 subfolder to hold black	and white copies of the images. Convert the 	#
+#			 subfolder to hold black and white copies of the images. Convert the 		#
 #			 images to black and white (we will assume we don't need to change them 	#
 #			 in any other way) and place the resulting files in the newly-created 		#
 #			 subfolder.														 			#
@@ -136,9 +136,9 @@
 #		every file in the folder that meets a certain condition: in this case, we are 	#
 #		looking	for all files with a file extension of .tif. (The asterisk is a 		#
 #		wildcard character: we're saying, in effect, "For every file that has a name 	#
-#		consisting of any combination of characters--so long as it ends in ".tif", do 	#
-#		what I'm about to tell you..."). 
-#		
+#		consisting of any combination of characters--so long as it ends in ".tif"--do 	#
+#		what I'm about to tell you..."). 												#		
+#																						#
 #		If our folder had three files in it--named Aldus.tif, Caxton.tif, and 			#
 #		Notes.docx--our for loop would act on the two .tif files, but ignore our		#
 #		Microsoft Word document of notes with the suffix .docx. Because this is a loop,	#
