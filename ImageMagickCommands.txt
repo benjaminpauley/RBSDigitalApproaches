@@ -28,7 +28,7 @@
 # In these simple examples, the input file(s) (that is, the file or files you want to	#
 # perform operations on) is given *after* all the parameters. The input file(s) are		#
 # then followed by the output file(s) (i.e., the files that will result from the 		#
-# operatins you're performing.															#
+# operations you're performing.															#
 #																						#
 # All names and paths for input and output files are purely boilerplate: you will need	#
 # to replace things like "multipage.pdf" and "/path/to/folder/" with, for example, the	# # filename of the multi-page PDF you're converting and the path to the folder where the	#       																				# script will find a file to convert, or where it will place the results of its 		#
@@ -117,7 +117,7 @@
 #	created in the course of constructing a for loop. Subsequent references to the 		#
 #	variable start with a dollar sign. (The way we process the input file names to 		#
 #	create the output file names will be explained in a bit.) Note the semicolons		#
-#	 between portions of the command.													#																					
+#	between portions of the command.													#																					
 #																						#
 #	for file in *.<file-extension>; do convert <parameters> $file <outfiles>; done		#
 #																						#
@@ -170,7 +170,7 @@
 #			and we want to prepare them all for OCRing. We need to convert all of the 	#
 #			pages of all of the PDFs to black and white TIFF files at 600dpi, but we	#
 #			want the TIFF files	resulting from each PDF to be placed into separate 		#
-#			named after the original PDF files.											#
+#			folders named after the original PDF files.									#
 #																						#
 #			cd Haywood-Novels															#
 #			for file in *.pdf; do mkdir ${file%%.*}; convert -density 600 				#
@@ -194,7 +194,7 @@
 #		semicolon after that step and before the convert command--we've added a new		#
 #		step in our command.)															#
 #																						#
-#		Once we've created the folder Fantomina, we move on the convert command, and	#
+#		Once we've created the folder Fantomina, we move on to the convert command, and	#
 #		this is pretty much just like what we did in the last example, *except*	that,	#
 #		instead of just using "Fantomina" as the base filename for our output files,	#
 #		we're first using "Fantomina" in the path to those output files. 				#
